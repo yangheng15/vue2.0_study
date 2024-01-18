@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <ul>
+            <!-- 定义路由 -->
+            <li><a href="/home">home</a></li>
+            <li><a href="/about">about</a></li>
+
+            <!-- 渲染路由对应的 UI -->
+            <div id="routeView"></div>
+        </ul>
+
+        <script>
+            // hash 实现
+            // let routerView = routeView;
+            // window.addEventListener('hashchange', () => {
+            //     let hash = location.hash;
+            //     routerView.innerHTML = hash;
+            // });
+            // window.addEventListener('DOMContentLoaded', () => {
+            //     if (!location.hash) {
+            //         //如果不存在hash值，那么重定向到#/
+            //         location.hash = '/';
+            //     } else {
+            //         //如果存在hash值，那就渲染对应UI
+            //         let hash = location.hash;
+            //         routerView.innerHTML = hash;
+            //     }
+            // });
+
+            let routerView = routeView;
+            window.addEventListener('DOMContentLoaded', onLoad);
+            window.addEventListener('popstate', () => {
+                // 只有点击返回按钮才会触发
+                routerView.innerHTML = location.pathname;
+                console.log(location);
+            });
+            function onLoad() {
+                routerView.innerHTML = location.pathname;
+                var linkList = document.querySelectorAll('a[href]');
+                linkList.forEach((el) => {
+                    el.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        history.pushState( { 'page_id': 1, 'user_id': 5 }, '', el.getAttribute('href'));
+                        routerView.innerHTML = location.pathname;
+                    });
+                });
+            }
+        </script>
+    </body>
+</html>
